@@ -1,0 +1,26 @@
+# Animal Rights AI - backend dependencies
+
+# Web framework
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+
+# Data validation
+pydantic>=2.8.0
+
+# Environment / config
+python-dotenv==1.0.1
+
+# Supabase client
+supabase==2.11.0
+
+# HTTP client (used for LLM / embedding / reranker provider calls)
+httpx==0.28.1
+
+# PDF processing
+pypdf==5.1.0
+
+# Testing
+pytest==8.3.4
+pytest-asyncio==0.25.2
+httpx[http2]==0.28.1

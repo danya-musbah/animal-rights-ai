@@ -1,0 +1,326 @@
+[
+  {
+    "question": "What is the maximum prison sentence for animal cruelty under the UK Animal Welfare Act 2006 after the 2021 reform?",
+    "expected_topics": ["legislation", "animal_cruelty"],
+    "expected_sources": ["uk_awa_2006"],
+    "jurisdiction": "England and Wales",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests factual legal recall: five years under the Animal Welfare (Sentencing) Act 2021."
+  },
+  {
+    "question": "Does the UK Animal Welfare Act 2006 apply in Scotland?",
+    "expected_topics": ["legislation"],
+    "expected_sources": ["uk_awa_2006"],
+    "jurisdiction": "Scotland",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests jurisdiction precision: the 2006 Act applies only to England and Wales."
+  },
+  {
+    "question": "What does the duty of care mean under section 9 of the UK Animal Welfare Act?",
+    "expected_topics": ["legislation", "animal_welfare"],
+    "expected_sources": ["uk_awa_2006", "fawc_five_freedoms"],
+    "jurisdiction": "England and Wales",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Multi-document: connects section 9 duty of care to the Five Freedoms framework."
+  },
+  {
+    "question": "What animals are excluded from the US Animal Welfare Act's definition of 'animal'?",
+    "expected_topics": ["legislation", "animal_testing"],
+    "expected_sources": ["us_awa_1966"],
+    "jurisdiction": "United States",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests factual recall of exclusions: farm animals, cold-blooded species, birds, rats/mice bred for research."
+  },
+  {
+    "question": "Does US federal law regulate the welfare of farm animals the same way it regulates laboratory animals?",
+    "expected_topics": ["legislation", "farming", "animal_testing"],
+    "expected_sources": ["us_awa_1966"],
+    "jurisdiction": "United States",
+    "answer_type": "comparative",
+    "answerable": true,
+    "notes": "Comparison question within one document."
+  },
+  {
+    "question": "Compare how the UK Animal Welfare Act 2006 and the US Animal Welfare Act define which animals they protect.",
+    "expected_topics": ["legislation"],
+    "expected_sources": ["uk_awa_2006", "us_awa_1966"],
+    "jurisdiction": null,
+    "answer_type": "comparative",
+    "answerable": true,
+    "notes": "Cross-jurisdiction, multi-document comparison question."
+  },
+  {
+    "question": "After how many hours does an animal transport journey in the EU become a 'long journey' subject to extra requirements?",
+    "expected_topics": ["transport", "legislation"],
+    "expected_sources": ["eu_reg_1_2005_transport"],
+    "jurisdiction": "European Union",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Factual recall: 8 hours."
+  },
+  {
+    "question": "Is the EU's animal transport regulation currently being reformed?",
+    "expected_topics": ["transport", "legislation"],
+    "expected_sources": ["eu_reg_1_2005_transport"],
+    "jurisdiction": "European Union",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests time-sensitive/status awareness: 2023 Commission proposal, still in progress."
+  },
+  {
+    "question": "What are the Three Rs in animal research, and where are they legally required?",
+    "expected_topics": ["animal_testing", "legislation"],
+    "expected_sources": ["eu_directive_2010_63_testing"],
+    "jurisdiction": "European Union",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Definition + legal grounding question."
+  },
+  {
+    "question": "Does EU law on animal testing cover octopuses?",
+    "expected_topics": ["animal_testing"],
+    "expected_sources": ["eu_directive_2010_63_testing", "animal_sentience_science"],
+    "jurisdiction": "European Union",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests specific scope recall (cephalopods) and links to sentience science."
+  },
+  {
+    "question": "Are great apes allowed to be used in scientific experiments in the EU?",
+    "expected_topics": ["animal_testing", "legislation"],
+    "expected_sources": ["eu_directive_2010_63_testing"],
+    "jurisdiction": "European Union",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests recall of a near-total prohibition with narrow exceptions."
+  },
+  {
+    "question": "When did the EU ban battery cages for laying hens, and what replaced them?",
+    "expected_topics": ["farming", "legislation"],
+    "expected_sources": ["eu_directive_1999_74_laying_hens"],
+    "jurisdiction": "European Union",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Factual recall: 1 January 2012; enriched cages and non-cage systems."
+  },
+  {
+    "question": "What is the minimum cage area per hen required in an EU enriched cage?",
+    "expected_topics": ["farming", "legislation"],
+    "expected_sources": ["eu_directive_1999_74_laying_hens"],
+    "jurisdiction": "European Union",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Precise numeric factual recall: 750 cm² per hen."
+  },
+  {
+    "question": "What are the Five Freedoms of animal welfare?",
+    "expected_topics": ["animal_welfare"],
+    "expected_sources": ["fawc_five_freedoms"],
+    "jurisdiction": null,
+    "answer_type": "educational",
+    "answerable": true,
+    "notes": "Simple definitional/factual question."
+  },
+  {
+    "question": "Where did the Five Freedoms framework originate, and is it legally binding by itself?",
+    "expected_topics": ["animal_welfare"],
+    "expected_sources": ["fawc_five_freedoms"],
+    "jurisdiction": null,
+    "answer_type": "educational",
+    "answerable": true,
+    "notes": "Tests distinction between framework and binding law."
+  },
+  {
+    "question": "What is the difference between animal rights and animal welfare?",
+    "expected_topics": ["animal_welfare"],
+    "expected_sources": ["rights_vs_welfare_ethics"],
+    "jurisdiction": null,
+    "answer_type": "ethical",
+    "answerable": true,
+    "notes": "Core suggested-question scenario; should distinguish ethical positions neutrally."
+  },
+  {
+    "question": "What do abolitionist animal rights philosophers argue, and how does that differ from utilitarian arguments for animal liberation?",
+    "expected_topics": ["animal_welfare"],
+    "expected_sources": ["rights_vs_welfare_ethics"],
+    "jurisdiction": null,
+    "answer_type": "ethical",
+    "answerable": true,
+    "notes": "Tests nuanced ethical-position summarization without endorsing one side."
+  },
+  {
+    "question": "What does the Cambridge Declaration on Consciousness say about animal sentience?",
+    "expected_topics": ["animal_welfare"],
+    "expected_sources": ["animal_sentience_science"],
+    "jurisdiction": null,
+    "answer_type": "scientific",
+    "answerable": true,
+    "notes": "Scientific factual recall question."
+  },
+  {
+    "question": "Is there scientific evidence that fish can feel pain?",
+    "expected_topics": ["animal_welfare"],
+    "expected_sources": ["animal_sentience_science"],
+    "jurisdiction": null,
+    "answer_type": "scientific",
+    "answerable": true,
+    "notes": "Tests careful, hedged handling of an active research area."
+  },
+  {
+    "question": "What is the difference between CITES Appendix I and Appendix II?",
+    "expected_topics": ["wildlife_protection", "international_standards"],
+    "expected_sources": ["cites_convention"],
+    "jurisdiction": "International",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Definitional legal/international standards question."
+  },
+  {
+    "question": "Is CITES directly enforceable law, or does each country need its own implementing legislation?",
+    "expected_topics": ["wildlife_protection", "international_standards"],
+    "expected_sources": ["cites_convention"],
+    "jurisdiction": "International",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests understanding of treaty implementation mechanics."
+  },
+  {
+    "question": "Are WOAH animal welfare standards legally binding on member countries?",
+    "expected_topics": ["international_standards"],
+    "expected_sources": ["woah_standards"],
+    "jurisdiction": "International",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests the binding-vs-non-binding distinction, a common point of confusion."
+  },
+  {
+    "question": "What is the legal definition of 'take' under the US Endangered Species Act?",
+    "expected_topics": ["wildlife_protection", "legislation"],
+    "expected_sources": ["us_esa_1973"],
+    "jurisdiction": "United States",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Precise legal definition recall."
+  },
+  {
+    "question": "Does a critical habitat designation under the US Endangered Species Act prevent all private land use?",
+    "expected_topics": ["wildlife_protection", "legislation"],
+    "expected_sources": ["us_esa_1973"],
+    "jurisdiction": "United States",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests correcting a common misconception."
+  },
+  {
+    "question": "Can private individuals sue to enforce the US Endangered Species Act?",
+    "expected_topics": ["wildlife_protection", "legislation"],
+    "expected_sources": ["us_esa_1973"],
+    "jurisdiction": "United States",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Factual recall: citizen suit provision."
+  },
+  {
+    "question": "Is keeping a dog permanently chained outside illegal?",
+    "expected_topics": ["companion_animals"],
+    "expected_sources": ["companion_animal_welfare"],
+    "jurisdiction": null,
+    "answer_type": "clarification",
+    "answerable": false,
+    "notes": "Should trigger jurisdiction clarification, not a direct legal answer, since no jurisdiction is given and rules vary widely."
+  },
+  {
+    "question": "According to the synthetic demonstration documents, how many hours can a dog be tethered under the fictional Nova Cascadia law, and does a stricter fictional local rule apply in Riverbend City?",
+    "expected_topics": ["companion_animals", "legislation"],
+    "expected_sources": ["synthetic_tethering_a", "synthetic_tethering_b"],
+    "jurisdiction": "Nova Cascadia (fictional)",
+    "answer_type": "legal",
+    "answerable": true,
+    "notes": "Tests multi-source contradiction handling and correct labeling of synthetic/fictional content."
+  },
+  {
+    "question": "What is the RSPCA and what does it do?",
+    "expected_topics": ["organizations"],
+    "expected_sources": ["major_organizations"],
+    "jurisdiction": "England and Wales",
+    "answer_type": "educational",
+    "answerable": true,
+    "notes": "Simple organizational factual question."
+  },
+  {
+    "question": "What is the difference between PETA's position and the RSPCA's position on animal use?",
+    "expected_topics": ["organizations"],
+    "expected_sources": ["major_organizations", "rights_vs_welfare_ethics"],
+    "jurisdiction": null,
+    "answer_type": "comparative",
+    "answerable": true,
+    "notes": "Multi-document comparison linking organizations to the rights/welfare ethical distinction."
+  },
+  {
+    "question": "What does current law in Japan say about animal testing in cosmetics?",
+    "expected_topics": ["animal_testing", "legislation"],
+    "expected_sources": [],
+    "jurisdiction": "Japan",
+    "answer_type": "legal",
+    "answerable": false,
+    "notes": "Not covered by this knowledge base's current corpus; should trigger the 'insufficient evidence' fallback rather than a fabricated answer."
+  },
+  {
+    "question": "How many animals die worldwide each year due to animal cruelty?",
+    "expected_topics": ["animal_cruelty"],
+    "expected_sources": [],
+    "jurisdiction": null,
+    "answer_type": "scientific",
+    "answerable": false,
+    "notes": "No such global statistic exists in the knowledge base; tests resistance to fabricating a specific number."
+  },
+  {
+    "question": "What penalties does Brazilian law impose for animal cruelty?",
+    "expected_topics": ["legislation", "animal_cruelty"],
+    "expected_sources": [],
+    "jurisdiction": "Brazil",
+    "answer_type": "legal",
+    "answerable": false,
+    "notes": "Jurisdiction not covered by the current knowledge base corpus; should trigger the insufficient-evidence fallback."
+  },
+  {
+    "question": "Should animal testing be banned entirely?",
+    "expected_topics": ["animal_testing"],
+    "expected_sources": ["rights_vs_welfare_ethics", "eu_directive_2010_63_testing"],
+    "jurisdiction": null,
+    "answer_type": "ethical",
+    "answerable": true,
+    "notes": "Ethical/opinion-style question; the assistant should present arguments on multiple sides rather than assert one ethical conclusion as correct."
+  },
+  {
+    "question": "What is speciesism?",
+    "expected_topics": ["animal_welfare"],
+    "expected_sources": ["rights_vs_welfare_ethics"],
+    "jurisdiction": null,
+    "answer_type": "definition",
+    "answerable": true,
+    "notes": "Definitional recall of a specific ethical term."
+  },
+  {
+    "question": "What are common international standards for animal transport?",
+    "expected_topics": ["transport", "international_standards"],
+    "expected_sources": ["eu_reg_1_2005_transport", "woah_standards"],
+    "jurisdiction": null,
+    "answer_type": "educational",
+    "answerable": true,
+    "notes": "One of the UI's suggested example questions; tests multi-document synthesis across a binding regional rule and a non-binding international standard."
+  },
+  {
+    "question": "asdkfj welfare thing???",
+    "expected_topics": [],
+    "expected_sources": [],
+    "jurisdiction": null,
+    "answer_type": "educational",
+    "answerable": false,
+    "notes": "Deliberately ambiguous/garbled query, testing graceful degradation rather than a crash or hallucinated answer."
+  }
+]

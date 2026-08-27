@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Animal Rights AI — Evidence-Grounded Knowledge Assistant</title>
+<meta name="description" content="PawLex AI — an evidence-grounded RAG knowledge assistant for animal rights, welfare, protection, and legislation." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%2313121A%22/><circle cx=%2250%22 cy=%2258%22 r=%2216%22 fill=%22%236CD9BA%22/><circle cx=%2228%22 cy=%2238%22 r=%229%22 fill=%22%236CD9BA%22/><circle cx=%2250%22 cy=%2228%22 r=%229%22 fill=%22%236CD9BA%22/><circle cx=%2272%22 cy=%2238%22 r=%229%22 fill=%22%236CD9BA%22/></svg>">
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="css/chat.css" />
+<link rel="stylesheet" href="css/knowledge.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+<div class="app-bg" aria-hidden="true"></div>
+<div id="toast-root" aria-live="polite"></div>
+
+<!-- =========================================================
+     TOP NAVIGATION
+     ========================================================= -->
+<header class="topnav">
+  <button class="brand" data-nav="landing" aria-label="Animal Rights AI home">
+    <span class="paw-mark" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 100 100">
+        <line class="edge" x1="50" y1="58" x2="28" y2="38"/>
+        <line class="edge" x1="50" y1="58" x2="50" y2="28"/>
+        <line class="edge" x1="50" y1="58" x2="72" y2="38"/>
+        <circle class="node" cx="50" cy="58" r="15"/>
+        <circle class="node" cx="28" cy="38" r="8"/>
+        <circle class="node" cx="50" cy="28" r="8"/>
+        <circle class="node" cx="72" cy="38" r="8"/>
+      </svg>
+    </span>
+    <span class="brand-text">Animal Rights AI</span>
+    <span class="subtitle-tag">PawLex</span>
+  </button>
+
+  <nav class="nav-links" aria-label="Primary">
+    <button class="nav-link active" data-nav="chat">Chat</button>
+    <button class="nav-link" data-nav="knowledge">Knowledge Base</button>
+    <button class="nav-link" data-nav="search">Search</button>
+    <button class="nav-link" data-nav="pipeline">RAG Pipeline</button>
+    <button class="nav-link" data-nav="analytics">Analytics</button>
+  </nav>
+
+  <div class="nav-right">
+    <button class="icon-btn mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" title="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <button class="icon-btn" id="sidebar-toggle-btn" aria-label="Toggle conversations" title="Conversations">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="9" y1="4" x2="9" y2="20"/></svg>
+    </button>
+    <button class="icon-btn" data-nav="settings" aria-label="Settings" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09A1.65 1.65 0 0015.4 4.6a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.22.5.68.85 1.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- =========================================================
+     LANDING VIEW
+     ========================================================= -->
+<main id="view-landing" class="view active">
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="hero-eyebrow">🐾 Evidence-grounded RAG assistant</span>
+      <h1>Knowledge for a <em>kinder</em> world.</h1>
+      <p class="hero-sub">Explore animal rights, welfare, protection, and legislation through an AI knowledge assistant that answers strictly from a curated, citable knowledge base — never from guesswork.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-nav="chat">Start Exploring</button>
+        <button class="btn btn-secondary" data-nav="knowledge">Explore Knowledge Base</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="num" id="hero-stat-docs">—</span><span class="label">Documents</span></div>
+        <div class="hero-stat"><span class="num">Hybrid</span><span class="label">Retrieval</span></div>
+        <div class="hero-stat"><span class="num">Cited</span><span class="label">Every answer</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <span class="paw-mark pulse">
+        <svg width="120" height="120" viewBox="0 0 100 100">
+          <line class="edge" x1="50" y1="58" x2="28" y2="38"/>
+          <line class="edge" x1="50" y1="58" x2="50" y2="28"/>
+          <line class="edge" x1="50" y1="58" x2="72" y2="38"/>
+          <circle class="node" cx="50" cy="58" r="15"/>
+          <circle class="node" cx="28" cy="38" r="8"/>
+          <circle class="node" cx="50" cy="28" r="8"/>
+          <circle class="node" cx="72" cy="38" r="8"/>
+        </svg>
+      </span>
+    </div>
+  </section>
+
+  <div class="disclaimer-strip">
+    <div class="disclaimer-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>This application provides educational information based on the documents available in its knowledge base. It is not a substitute for professional legal advice. Laws and regulations may change, and users should verify current information with authoritative sources.</span>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-head">
+      <h2>Explore by category</h2>
+      <p>🐾 Every category below is grounded in real, cited source documents.</p>
+    </div>
+    <div class="topic-grid" id="landing-topic-grid">
+      <!-- populated by app.js -->
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    Animal Rights AI Knowledge Assistant — an evidence-grounded RAG portfolio project. Not legal advice. See the <a href="#" data-nav="knowledge">Knowledge Base</a> for full source attribution.
+  </footer>
+</main>
+
+<!-- =========================================================
+     CHAT VIEW
+     ========================================================= -->
+<div id="view-chat" class="view">
+  <div class="workspace">
+
+    <div class="sidebar-scrim" id="sidebar-scrim"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <button class="btn btn-secondary new-chat-btn" id="new-chat-btn">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New chat
+        </button>
+      </div>
+      <div class="conversation-list" id="conversation-list">
+        <!-- populated by chat.js -->
+      </div>
+      <div class="sidebar-footer">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="status-text">Checking backend…</span>
+      </div>
+    </aside>
+
+    <section class="chat-column">
+      <div class="chat-scroll" id="chat-scroll">
+        <div class="chat-welcome" id="chat-welcome">
+          <h2>Your knowledge journey starts here.</h2>
+          <p>Ask about legislation, welfare science, organizations, or ethics — answers are grounded in the knowledge base and fully cited.</p>
+          <div class="suggested-questions" id="suggested-questions"><!-- populated by chat.js --></div>
+        </div>
+        <div id="messages-container"></div>
+      </div>
+
+      <div class="composer-wrap">
+        <form class="composer" id="composer-form">
+          <textarea id="composer-input" rows="1" placeholder="Ask about animal rights, welfare, protection, or legislation…" aria-label="Message"></textarea>
+          <button type="submit" class="send-btn" id="send-btn" aria-label="Send message">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </form>
+        <div class="composer-meta">
+          <select class="jurisdiction-select" id="jurisdiction-select" aria-label="Jurisdiction filter">
+            <option value="">Any jurisdiction</option>
+            <option value="united kingdom">United Kingdom</option>
+            <option value="united states">United States</option>
+            <option value="european union">European Union</option>
+            <option value="international">International</option>
+          </select>
+          <span>🐾 Evidence-grounded — not legal advice</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="evidence-panel" id="evidence-panel">
+      <div class="evidence-header">
+        <h3>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+          Evidence
+          <span class="evidence-drawer-toggle" id="evidence-drawer-close" style="margin-left:auto;cursor:pointer;">✕</span>
+        </h3>
+      </div>
+      <div class="evidence-scroll" id="evidence-scroll">
+        <div class="empty-state">
+          <span class="paw-mark"><svg width="34" height="34" viewBox="0 0 100 100"><circle class="node" cx="50" cy="58" r="15"/><circle class="node" cx="28" cy="38" r="8"/><circle class="node" cx="50" cy="28" r="8"/><circle class="node" cx="72" cy="38" r="8"/></svg></span>
+          <h3>No evidence yet</h3>
+          <p>Ask a question and supporting sources will appear here, with relevance scores and excerpts.</p>
+        </div>
+      </div>
+      <div class="debug-panel" id="debug-panel" style="display:none;"></div>
+    </aside>
+  </div>
+  <button class="evidence-drawer-toggle btn btn-secondary btn-sm" id="evidence-mobile-open" style="display:none;position:fixed;bottom:96px;right:16px;z-index:33;">🐾 Evidence</button>
+</div>
+
+<!-- =========================================================
+     KNOWLEDGE BASE VIEW
+     ========================================================= -->
+<div id="view-knowledge" class="view">
+  <div class="page-header">
+    <h1>Knowledge Base</h1>
+    <p>Every document grounding this assistant's answers, with full source attribution. Documents marked <span class="badge badge-synthetic">Synthetic</span> are fictional and created only to test the RAG pipeline.</p>
+  </div>
+  <div class="page-body">
+    <div class="kb-stats-row" id="kb-stats-row"></div>
+    <div class="filters-bar" id="kb-filters">
+      <select class="filter-select" id="kb-filter-country"><option value="">All countries</option></select>
+      <select class="filter-select" id="kb-filter-type"><option value="">All document types</option></select>
+      <select class="filter-select" id="kb-filter-topic"><option value="">All topics</option></select>
+      <select class="filter-select" id="kb-filter-animal"><option value="">All animal categories</option></select>
+      <button class="filter-clear" id="kb-filter-clear">Clear filters</button>
+    </div>
+    <div class="doc-grid" id="doc-grid"></div>
+  </div>
+</div>
+
+<!-- Document detail modal (shared) -->
+<div class="modal-overlay" id="doc-modal">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close-btn" aria-label="Close">✕</button>
+    <h2 id="modal-title"></h2>
+    <p id="modal-desc" style="color:var(--text-secondary);font-size:13.5px;"></p>
+    <div class="modal-meta-grid" id="modal-meta-grid"></div>
+    <div>
+      <strong style="font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);">Topics</strong>
+      <div class="modal-topics" id="modal-topics"></div>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+      <a class="btn btn-primary btn-sm" id="modal-source-link" href="#" target="_blank" rel="noopener">Open official source</a>
+      <button class="btn btn-secondary btn-sm" id="modal-ask-btn">Ask about this document</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     SEARCH VIEW
+     ========================================================= -->
+<div id="view-search" class="view">
+  <div class="page-header">
+    <h1>Semantic Search</h1>
+    <p>Search the knowledge base directly — hybrid semantic + keyword retrieval with reranked relevance scores.</p>
+  </div>
+  <div class="page-body">
+    <form class="search-box-wrap" id="search-form">
+      <div class="search-input-shell">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="e.g. animal transport welfare requirements" aria-label="Search query" />
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <div class="filters-bar">
+      <select class="filter-select" id="search-filter-country"><option value="">All countries</option></select>
+      <select class="filter-select" id="search-filter-type"><option value="">All document types</option></select>
+    </div>
+    <div id="search-results"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     RAG PIPELINE VIEW
+     ========================================================= -->
+<div id="view-pipeline" class="view">
+  <div class="page-header">
+    <h1>RAG Pipeline</h1>
+    <p>How a question becomes a cited, evidence-grounded answer — a technical walkthrough of the retrieval-augmented generation architecture behind this assistant.</p>
+  </div>
+  <div class="page-body">
+    <div class="pipeline-flow" id="pipeline-flow"></div>
+
+    <div class="pipeline-try-box">
+      <h3 style="margin-bottom:6px;">Try it — with Retrieval Debug Mode</h3>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-bottom:14px;">Runs a real query through the pipeline and shows every stage: query analysis, semantic + keyword candidates, fusion, reranking, and final context. Nothing here shows the model's private reasoning — only retrieval mechanics.</p>
+      <textarea id="pipeline-demo-input" placeholder="Type a question to trace through the pipeline…"></textarea>
+      <button class="btn btn-primary" id="pipeline-demo-run">Run through pipeline</button>
+      <div id="pipeline-demo-output" style="margin-top:18px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     ANALYTICS VIEW
+     ========================================================= -->
+<div id="view-analytics" class="view">
+  <div class="page-header">
+    <h1>Analytics</h1>
+    <p>Lightweight, aggregate usage statistics. No individual user data is shown.</p>
+  </div>
+  <div class="page-body">
+    <div class="analytics-grid" id="analytics-grid"></div>
+    <div class="analytics-cols">
+      <div>
+        <h3 style="font-size:15px;margin-bottom:14px;">Top topics</h3>
+        <div class="bar-list" id="analytics-topics"></div>
+      </div>
+      <div>
+        <h3 style="font-size:15px;margin-bottom:14px;">Top countries / jurisdictions</h3>
+        <div class="bar-list" id="analytics-countries"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     SETTINGS VIEW
+     ========================================================= -->
+<div id="view-settings" class="view">
+  <div class="page-header">
+    <h1>Settings</h1>
+    <p>Configure developer options and connection status.</p>
+  </div>
+  <div class="page-body">
+    <div class="settings-card">
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label">Retrieval Debug Mode</div>
+          <div class="settings-row-desc">Show query analysis, retrieval scores, and reranking details in the evidence panel.</div>
+        </div>
+        <div class="toggle-switch" id="toggle-debug-mode" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label">API base URL</div>
+          <div class="settings-row-desc">Where the frontend sends requests. Change if your backend runs elsewhere.</div>
+        </div>
+        <input type="text" class="settings-input" id="api-base-input" value="http://localhost:8000/api" />
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label">Backend status</div>
+          <div class="settings-row-desc" id="settings-status-desc">Checking…</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="settings-recheck-btn">Recheck</button>
+      </div>
+    </div>
+
+    <div class="settings-card" style="margin-top:20px;">
+      <h3 style="font-size:15px;margin-bottom:6px;">Upload a document</h3>
+      <p class="settings-row-desc" style="margin-bottom:14px;">Add a PDF, TXT, or MD file to the knowledge base. It will be processed through the same ingestion pipeline (extraction → cleaning → chunking → embedding).</p>
+      <input type="file" id="upload-input" accept=".pdf,.txt,.md" style="color:var(--text-secondary);font-size:13px;" />
+      <button class="btn btn-primary btn-sm" id="upload-btn" style="margin-left:10px;">Upload &amp; ingest</button>
+      <div id="upload-status" style="margin-top:10px;font-size:13px;color:var(--text-secondary);"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/evidence.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/knowledge.js"></script>
+<script src="js/search.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
