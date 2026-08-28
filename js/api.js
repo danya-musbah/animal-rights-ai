@@ -6,8 +6,24 @@
    ============================================================================= */
 
 const Api = (() => {
+  const LOCAL_API_BASE = "http://localhost:8000/api";
+
+  function isLocalDevelopment() {
+    return window.location.protocol === "file:" || ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
+  }
+
+  function isLocalApiUrl(url) {
+    try {
+      return ["localhost", "127.0.0.1", "[::1]"].includes(new URL(url).hostname);
+    } catch {
+      return false;
+    }
+  }
+
   function getBaseUrl() {
-    return localStorage.getItem("ara_api_base") || "http://localhost:8000/api";
+    const configured = localStorage.getItem("ara_api_base")?.trim();
+    if (configured && (isLocalDevelopment() || !isLocalApiUrl(configured))) return configured;
+    return isLocalDevelopment() ? LOCAL_API_BASE : "";
   }
 
   function setBaseUrl(url) {
@@ -16,6 +32,12 @@ const Api = (() => {
 
   async function request(path, options = {}) {
     const base = getBaseUrl();
+    if (!base) {
+      throw new ApiError(
+        "No production API is configured. Open Settings and enter the public FastAPI API base URL.",
+        0
+      );
+    }
     let response;
     try {
       response = await fetch(`${base}${path}`, {
@@ -99,6 +121,11 @@ const Api = (() => {
 
   function uploadDocument(file) {
     const base = getBaseUrl();
+    if (!base) {
+      return Promise.reject(
+        new ApiError("No production API is configured. Open Settings and enter the public FastAPI API base URL.", 0)
+      );
+    }
     const formData = new FormData();
     formData.append("file", file);
     return fetch(`${base}/documents/ingest`, { method: "POST", body: formData }).then(async (r) => {
