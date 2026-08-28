@@ -5,12 +5,32 @@
    bottom drawer/expandable sheet, hero stacks to one column.
    ============================================================================= */
 
+    .sidebar-scrim {
+    display: none;
+    position: fixed;
+    inset: var(--nav-height) 0 0 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 34;
+    backdrop-filter: blur(2px);
+  }
+  .sidebar-scrim.open { display: block; }
+
 /* ---- ≤1280px: evidence panel narrows, better spacing ---- */
 @media (max-width: 1280px) {
   :root { 
     --evidence-width: 320px;
     --sidebar-width: 240px;
   }
+
+   .sidebar-scrim {
+    display: none;
+    position: fixed;
+    inset: var(--nav-height) 0 0 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 34;
+    backdrop-filter: blur(2px);
+  }
+  .sidebar-scrim.open { display: block; }
 }
 
 /* ---- ≤1024px: sidebar becomes an overlay drawer, evidence becomes bottom drawer ---- */
