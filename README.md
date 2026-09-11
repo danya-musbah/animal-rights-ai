@@ -19,6 +19,10 @@ Evidence-based AI knowledge assistant for animal rights, welfare, protection, an
 ## Screenshots
 
 <p align="center">
+  <img src="images/Screenshot%202026-08-27%20064053.png" alt="Mobile View" width="900">
+</p>
+
+<p align="center">
   <img src="images/Screenshot%202026-08-27%20064255.png" alt="Home Page" width="900">
 </p>
 
@@ -36,15 +40,11 @@ Evidence-based AI knowledge assistant for animal rights, welfare, protection, an
 </p>
 
 <p align="center">
-  <img src="images/Screenshot%202026-08-27%20064140.png" alt="Documents" width="900">
-</p>
-
-<p align="center">
   <img src="images/Screenshot%202026-08-27%20064113.png" alt="Settings" width="900">
 </p>
 
 <p align="center">
-  <img src="images/Screenshot%202026-08-27%20064053.png" alt="Mobile View" width="400">
+  <img src="images/Screenshot%202026-08-27%20064140.png" alt="Documents" width="400">
 </p>
 
 
