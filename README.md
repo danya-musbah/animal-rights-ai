@@ -40,7 +40,7 @@ Evidence-based AI knowledge assistant for animal rights, welfare, protection, an
 </p>
 
 <p align="center">
-  <img src="images/Screenshot%202026-08-27%20064113.png" alt="Settings" width="900">
+  <img src="images/Screenshot%202026-09-11%20070222.png" alt="Settings" width="900">
 </p>
 
 <p align="center">
