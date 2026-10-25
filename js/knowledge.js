@@ -7,26 +7,6 @@ const Knowledge = (() => {
   let allDocs = [];
   let loaded = false;
 
-  const DOC_TYPE_ICON = {
-    legislation: "⚖️",
-    regulation: "📜",
-    government_guidance: "🏛️",
-    scientific_research: "🔬",
-    academic_paper: "📖",
-    organization_report: "🗂️",
-    organization_policy: "🗂️",
-    international_standard: "🌍",
-    policy: "📋",
-    educational_material: "🎓",
-    other: "📄",
-  };
-
-  const ANIMAL_EMOJI = {
-    dogs: "🐕", cats: "🐈", farm_animals: "🐄", wildlife: "🐘", reptiles: "🐢",
-    birds: "🦅", marine: "🐋", horses: "🐎", primate: "🐒", laboratory_animals: "🧪",
-    poultry: "🐓", livestock: "🐄", endangered_species: "🦏", zoo_animals: "🦁", companion_animals: "🐾",
-  };
-
   async function init() {
     bindFilters();
     bindModal();
@@ -133,19 +113,19 @@ const Knowledge = (() => {
         (d) => `
       <button class="doc-card" data-id="${d.id}">
         <div class="doc-card-top">
-          <span class="doc-icon">${DOC_TYPE_ICON[d.document_type] || "📄"}</span>
+          <span class="doc-icon"><i data-feather="${Utils.documentTypeIcon(d.document_type)}" aria-hidden="true"></i></span>
           ${d.is_synthetic ? '<span class="badge badge-synthetic">Synthetic</span>' : ""}
         </div>
         <div class="doc-title">${Utils.escapeHtml(d.title)}</div>
         <div class="doc-desc">${Utils.escapeHtml(truncate(d.description, 120))}</div>
         <div class="doc-meta-row">
-          ${d.country ? `<span>🌍 ${Utils.escapeHtml(Utils.titleCase(d.country))}</span>` : ""}
+          ${d.country ? `<span><i data-feather="globe" aria-hidden="true"></i> ${Utils.escapeHtml(Utils.titleCase(d.country))}</span>` : ""}
           ${d.document_type ? `<span>${Utils.escapeHtml(Utils.titleCase(d.document_type))}</span>` : ""}
-          ${(d.animal_categories || []).slice(0, 2).map((a) => `<span>${ANIMAL_EMOJI[a] || "🐾"} ${Utils.titleCase(a)}</span>`).join("")}
+          ${(d.animal_categories || []).slice(0, 2).map((a) => `<span><i data-feather="heart" aria-hidden="true"></i> ${Utils.titleCase(a)}</span>`).join("")}
         </div>
         <div class="doc-card-footer">
           <span style="font-size:11.5px;color:var(--text-muted);">${Utils.formatDate(d.publication_date)}</span>
-          <span style="font-size:12.5px;color:var(--mint);">View details →</span>
+          <span class="doc-details-label">View details <i data-feather="arrow-right" aria-hidden="true"></i></span>
         </div>
       </button>`
       )

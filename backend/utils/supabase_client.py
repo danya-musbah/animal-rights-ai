@@ -34,13 +34,15 @@ def get_supabase() -> Optional["Client"]:
     Supabase is not configured (the app falls back to demo mode).
     """
     settings = get_settings()
-    if not settings.supabase_configured or create_client is None:
+    if not settings.supabase_configured:
         log.warning("Supabase is not configured - running without a database connection.")
         return None
 
-    key = settings.supabase_service_role_key or settings.supabase_anon_key
+    if create_client is None:
+        raise RuntimeError("The Supabase client dependency is unavailable.")
+
     try:
-        return create_client(settings.supabase_url, key)
+        return create_client(settings.supabase_url, settings.supabase_service_role_key)
     except Exception as exc:  # pragma: no cover
         log.error("Failed to create Supabase client: %s", exc)
-        return None
+        raise RuntimeError("Failed to create the configured Supabase client.") from exc

@@ -4,6 +4,19 @@
    ============================================================================= */
 
 const Utils = (() => {
+  const DOCUMENT_TYPE_ICONS = {
+    legislation: "file-text",
+    regulation: "file-text",
+    government_guidance: "book-open",
+    scientific_research: "activity",
+    academic_paper: "book",
+    organization_report: "layers",
+    organization_policy: "layers",
+    international_standard: "globe",
+    policy: "clipboard",
+    educational_material: "book-open",
+  };
+
   function escapeHtml(str) {
     if (str === null || str === undefined) return "";
     return String(str)
@@ -43,6 +56,12 @@ const Utils = (() => {
       .split(" ")
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" ");
+  }
+
+  function documentTypeIcon(documentType) {
+    return Object.prototype.hasOwnProperty.call(DOCUMENT_TYPE_ICONS, documentType)
+      ? DOCUMENT_TYPE_ICONS[documentType]
+      : "file";
   }
 
   function formatDate(dateStr) {
@@ -131,6 +150,7 @@ const Utils = (() => {
     debounce,
     toast,
     titleCase,
+    documentTypeIcon,
     formatDate,
     copyToClipboard,
     renderAnswerMarkdown,

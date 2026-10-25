@@ -15,7 +15,7 @@ from __future__ import annotations
 import uuid
 from typing import Any, Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from backend.rag.pipeline import run_pipeline
@@ -73,8 +73,8 @@ def _load_conversation_history(supabase, conversation_id: str) -> list[dict]:
         )
         return resp.data or []
     except Exception as exc:
-        log.warning("Could not load conversation history: %s", exc)
-        return []
+        log.error("Could not load conversation history: %s", exc)
+        raise HTTPException(status_code=503, detail="Could not load conversation history.") from exc
 
 
 def _persist_turn(supabase, conversation_id: str, question: str, result, request: ChatRequest) -> str:
@@ -114,8 +114,8 @@ def _persist_turn(supabase, conversation_id: str, question: str, result, request
 
         return str(message_id)
     except Exception as exc:
-        log.warning("Could not persist conversation turn (continuing without persistence): %s", exc)
-        return str(uuid.uuid4())
+        log.error("Could not persist conversation turn: %s", exc)
+        raise HTTPException(status_code=503, detail="Could not save this conversation. Please try again.") from exc
 
 
 def _ensure_conversation(supabase, conversation_id: Optional[str], first_message: str) -> str:
@@ -127,7 +127,8 @@ def _ensure_conversation(supabase, conversation_id: Optional[str], first_message
             title = (first_message[:60] + "...") if len(first_message) > 60 else first_message
             supabase.table("conversations").insert({"id": new_id, "title": title}).execute()
         except Exception as exc:
-            log.warning("Could not create conversation record: %s", exc)
+            log.error("Could not create conversation record: %s", exc)
+            raise HTTPException(status_code=503, detail="Could not create a conversation.") from exc
     return new_id
 
 

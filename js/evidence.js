@@ -9,20 +9,6 @@ const Evidence = (() => {
   const scrollEl = () => document.getElementById("evidence-scroll");
   const debugEl = () => document.getElementById("debug-panel");
 
-  const DOC_TYPE_ICON = {
-    legislation: "⚖️",
-    regulation: "📜",
-    government_guidance: "🏛️",
-    scientific_research: "🔬",
-    academic_paper: "📖",
-    organization_report: "🗂️",
-    organization_policy: "🗂️",
-    international_standard: "🌍",
-    policy: "📋",
-    educational_material: "🎓",
-    other: "📄",
-  };
-
   function render(citations, demoMode) {
     const el = scrollEl();
     if (!citations || citations.length === 0) {
@@ -43,7 +29,7 @@ const Evidence = (() => {
       .map((c) => {
         const scorePct = Math.max(2, Math.min(100, Math.round((c.relevance_score || 0) * 100)));
         const metaBits = [];
-        if (c.document_type) metaBits.push(`<span>${DOC_TYPE_ICON[c.document_type] || "📄"} ${Utils.titleCase(c.document_type)}</span>`);
+        if (c.document_type) metaBits.push(`<span><i data-feather="${Utils.documentTypeIcon(c.document_type)}" aria-hidden="true"></i> ${Utils.titleCase(c.document_type)}</span>`);
         if (c.jurisdiction) metaBits.push(`<span>${Utils.escapeHtml(c.jurisdiction)}</span>`);
         if (c.section) metaBits.push(`<span>§ ${Utils.escapeHtml(c.section)}</span>`);
         if (c.page) metaBits.push(`<span>p. ${c.page}</span>`);
@@ -62,7 +48,7 @@ const Evidence = (() => {
             </div>
             ${
               c.source_url
-                ? `<a class="evidence-open-link" href="${Utils.escapeHtml(c.source_url)}" target="_blank" rel="noopener">Open official source ↗</a>`
+                ? `<a class="evidence-open-link" href="${Utils.escapeHtml(c.source_url)}" target="_blank" rel="noopener">Open official source <i data-feather="external-link" aria-hidden="true"></i></a>`
                 : ""
             }
           </article>`;
@@ -96,7 +82,7 @@ const Evidence = (() => {
     }
     el.style.display = "block";
 
-    let html = `<h4>🐾 Retrieval Debug Trace (${trace.latency_ms || "?"} ms)</h4>`;
+    let html = `<h4><i data-feather="heart" aria-hidden="true"></i> Retrieval Debug Trace (${trace.latency_ms || "?"} ms)</h4>`;
     (trace.stages || []).forEach((stage) => {
       html += `<h4>${Utils.escapeHtml(stage.stage)}</h4>`;
       html += `<div class="debug-json">${Utils.escapeHtml(JSON.stringify(stage.data, null, 2))}</div>`;

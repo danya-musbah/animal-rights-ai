@@ -1,11 +1,41 @@
+# Local environment and logs
 .env
 .env.*
 !.env.example
+*.log
 
+# Python bytecode and local environments
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
 
+# Test and coverage output
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage/
+
+# Runtime uploads are user data, not source documents
+knowledge_base/uploaded/
+
+# Build output
+build/
+dist/
+*.egg-info/
+
+# JavaScript dependencies (not required for the current frontend)
 node_modules/
+
+# Editors and operating systems
 .vscode/
+.idea/
 
 .DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo

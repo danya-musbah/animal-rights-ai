@@ -11,12 +11,12 @@ const Chat = (() => {
   let sending = false;
 
   const SUGGESTED_QUESTIONS = [
-    { icon: "⚖️", text: "What is the difference between animal rights and animal welfare?" },
-    { icon: "🐄", text: "What legal protections exist for farm animals in the EU?" },
-    { icon: "🚚", text: "What are common international standards for animal transport?" },
-    { icon: "🧠", text: "What does the scientific literature say about animal sentience?" },
-    { icon: "🌍", text: "Compare UK and US animal welfare legislation." },
-    { icon: "🧪", text: "What are the main arguments surrounding animal testing?" },
+    { icon: "book-open", text: "What is the difference between animal rights and animal welfare?" },
+    { icon: "truck", text: "What legal protections exist for farm animals in the EU?" },
+    { icon: "globe", text: "What are common international standards for animal transport?" },
+    { icon: "activity", text: "What does the scientific literature say about animal sentience?" },
+    { icon: "layers", text: "Compare UK and US animal welfare legislation." },
+    { icon: "clipboard", text: "What are the main arguments surrounding animal testing?" },
   ];
 
   const LOADING_STAGES = [
@@ -37,7 +37,7 @@ const Chat = (() => {
   function renderSuggestedQuestions() {
     const el = document.getElementById("suggested-questions");
     el.innerHTML = SUGGESTED_QUESTIONS.map(
-      (q) => `<button class="suggested-q" type="button"><span class="q-icon">${q.icon}</span>${Utils.escapeHtml(q.text)}</button>`
+      (q) => `<button class="suggested-q" type="button"><span class="q-icon"><i data-feather="${q.icon}" aria-hidden="true"></i></span>${Utils.escapeHtml(q.text)}</button>`
     ).join("");
     el.querySelectorAll(".suggested-q").forEach((btn, i) => {
       btn.addEventListener("click", () => {
@@ -129,8 +129,8 @@ const Chat = (() => {
       <div class="conversation-item ${c.id === currentConversationId ? "active" : ""}" data-id="${c.id}">
         <span class="title-text">${Utils.escapeHtml(c.title || "New conversation")}</span>
         <span class="conv-actions">
-          <button class="rename-btn" title="Rename" aria-label="Rename conversation">✎</button>
-          <button class="delete-btn" title="Delete" aria-label="Delete conversation">🗑</button>
+          <button class="rename-btn" title="Rename" aria-label="Rename conversation"><i data-feather="edit-2" aria-hidden="true"></i></button>
+          <button class="delete-btn" title="Delete" aria-label="Delete conversation"><i data-feather="trash-2" aria-hidden="true"></i></button>
         </span>
       </div>`
       )
@@ -266,7 +266,7 @@ const Chat = (() => {
     wrap.id = id;
     wrap.className = "msg assistant";
     wrap.innerHTML = `
-      <div class="msg-avatar">🐾</div>
+      <div class="msg-avatar"><i data-feather="heart" aria-hidden="true"></i></div>
       <div class="msg-body">
         <div class="msg-content">
           <div class="loading-stages">
@@ -304,7 +304,7 @@ const Chat = (() => {
       badges.push(`<span class="badge badge-${opts.answerType}">${Utils.titleCase(opts.answerType)}</span>`);
     }
     if (opts.confidence && opts.confidence !== "n/a" && role === "assistant") {
-      badges.push(`<span class="badge badge-educational badge-confidence-${opts.confidence}">● ${Utils.titleCase(opts.confidence)} confidence</span>`);
+      badges.push(`<span class="badge badge-educational badge-confidence-${opts.confidence}">${Utils.titleCase(opts.confidence)} confidence</span>`);
     }
     if (opts.demoMode) {
       badges.push(`<span class="badge badge-clarification">Demo mode</span>`);
@@ -313,7 +313,7 @@ const Chat = (() => {
     const bodyHtml = role === "assistant" ? Utils.renderAnswerMarkdown(content) : `<p>${Utils.escapeHtml(content)}</p>`;
 
     wrap.innerHTML = `
-      <div class="msg-avatar">${role === "user" ? "🧑" : "🐾"}</div>
+      <div class="msg-avatar"><i data-feather="${role === "user" ? "user" : "heart"}" aria-hidden="true"></i></div>
       <div class="msg-body">
         <div class="msg-role-label">${role === "user" ? "You" : "Animal Rights AI"} ${badges.join(" ")}</div>
         <div class="msg-content">${bodyHtml}</div>
@@ -331,16 +331,16 @@ const Chat = (() => {
     return `
       <div class="msg-actions">
         <button class="msg-icon-btn copy-btn" title="Copy answer">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <i data-feather="copy" aria-hidden="true"></i>
           Copy
         </button>
         <button class="msg-icon-btn regen-btn" title="Regenerate answer">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+          <i data-feather="refresh-cw" aria-hidden="true"></i>
           Regenerate
         </button>
         <div class="feedback-buttons">
-          <button class="msg-icon-btn feedback-up" data-rating="1" title="Helpful">👍</button>
-          <button class="msg-icon-btn feedback-down" data-rating="-1" title="Not helpful">👎</button>
+          <button class="msg-icon-btn feedback-up" data-rating="1" title="Helpful" aria-label="Helpful"><i data-feather="thumbs-up" aria-hidden="true"></i></button>
+          <button class="msg-icon-btn feedback-down" data-rating="-1" title="Not helpful" aria-label="Not helpful"><i data-feather="thumbs-down" aria-hidden="true"></i></button>
         </div>
       </div>`;
   }
@@ -373,10 +373,10 @@ const Chat = (() => {
     const wrap = document.createElement("div");
     wrap.className = "msg assistant";
     wrap.innerHTML = `
-      <div class="msg-avatar">🐾</div>
+      <div class="msg-avatar"><i data-feather="heart" aria-hidden="true"></i></div>
       <div class="msg-body">
         <div class="msg-error">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <i data-feather="alert-circle" aria-hidden="true"></i>
           <span>${Utils.escapeHtml(message)}</span>
         </div>
       </div>`;
@@ -389,7 +389,7 @@ const Chat = (() => {
     wrap.className = "msg assistant";
     const jurisdictions = ["United Kingdom", "United States", "European Union", "International"];
     wrap.innerHTML = `
-      <div class="msg-avatar">🐾</div>
+      <div class="msg-avatar"><i data-feather="heart" aria-hidden="true"></i></div>
       <div class="msg-body">
         <div class="msg-role-label">Animal Rights AI <span class="badge badge-clarification">Clarification needed</span></div>
         <div class="msg-clarification">

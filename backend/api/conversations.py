@@ -60,19 +60,23 @@ def list_conversations():
         resp = supabase.table("conversations").select("*").order("updated_at", desc=True).execute()
         return resp.data or []
     except Exception as exc:
-        log.warning("Could not list conversations: %s", exc)
-        return []
+        log.error("Could not list conversations: %s", exc)
+        raise HTTPException(status_code=503, detail="Could not load conversations.") from exc
 
 
 @router.post("/conversations", response_model=ConversationOut)
 def create_conversation(request: CreateConversationRequest):
     supabase = get_supabase()
+    if supabase is None:
+        raise HTTPException(status_code=503, detail="Supabase is not configured.")
+
     new_id = str(uuid.uuid4())
-    if supabase is not None:
-        try:
-            supabase.table("conversations").insert({"id": new_id, "title": request.title}).execute()
-        except Exception as exc:
-            log.warning("Could not persist new conversation: %s", exc)
+    try:
+        supabase.table("conversations").insert({"id": new_id, "title": request.title}).execute()
+    except Exception as exc:
+        log.error("Could not persist new conversation: %s", exc)
+        raise HTTPException(status_code=503, detail="Could not create a conversation.") from exc
+
     return ConversationOut(id=new_id, title=request.title)
 
 
@@ -107,7 +111,11 @@ def rename_conversation(conversation_id: str, request: RenameRequest):
     supabase = get_supabase()
     if supabase is None:
         raise HTTPException(status_code=503, detail="Supabase is not configured.")
-    supabase.table("conversations").update({"title": request.title}).eq("id", conversation_id).execute()
+    try:
+        supabase.table("conversations").update({"title": request.title}).eq("id", conversation_id).execute()
+    except Exception as exc:
+        log.error("Could not rename conversation %s: %s", conversation_id, exc)
+        raise HTTPException(status_code=503, detail="Could not rename conversation.") from exc
     return ConversationOut(id=conversation_id, title=request.title)
 
 
@@ -116,5 +124,9 @@ def delete_conversation(conversation_id: str):
     supabase = get_supabase()
     if supabase is None:
         raise HTTPException(status_code=503, detail="Supabase is not configured.")
-    supabase.table("conversations").delete().eq("id", conversation_id).execute()
+    try:
+        supabase.table("conversations").delete().eq("id", conversation_id).execute()
+    except Exception as exc:
+        log.error("Could not delete conversation %s: %s", conversation_id, exc)
+        raise HTTPException(status_code=503, detail="Could not delete conversation.") from exc
     return {"status": "deleted", "id": conversation_id}

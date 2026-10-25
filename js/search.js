@@ -74,8 +74,8 @@ const Search = (() => {
         </div>
         <p class="search-result-excerpt">"${Utils.escapeHtml(r.excerpt)}"</p>
         <div class="search-result-footer">
-          ${r.source_url ? `<a href="${Utils.escapeHtml(r.source_url)}" target="_blank" rel="noopener">Open source ↗</a>` : "<span></span>"}
-          <button class="btn btn-ghost btn-sm ask-about-btn" data-doc="${Utils.escapeHtml(r.document_title)}">Ask about this →</button>
+          ${r.source_url ? `<a href="${Utils.escapeHtml(r.source_url)}" target="_blank" rel="noopener">Open source <i data-feather="external-link" aria-hidden="true"></i></a>` : "<span></span>"}
+          <button class="btn btn-ghost btn-sm ask-about-btn" data-doc="${Utils.escapeHtml(r.document_title)}">Ask about this <i data-feather="arrow-right" aria-hidden="true"></i></button>
         </div>
       </article>`
       )

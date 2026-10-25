@@ -7,8 +7,10 @@ retrieval functions so no real Supabase connection is required.
 """
 
 import backend.rag.hybrid_search as hybrid_search_module
+import backend.rag.retrieval as retrieval_module
 from backend.rag.reranker import rerank
 from backend.rag.retrieval import RetrievedChunk
+from types import SimpleNamespace
 
 
 def make_chunk(chunk_id, content="animal welfare transport"):
@@ -63,3 +65,18 @@ def test_rerank_respects_top_k():
 
 def test_rerank_empty_input_returns_empty():
     assert rerank("anything", [], top_k=5) == []
+
+
+def test_semantic_search_skips_unconfigured_placeholder_embeddings(monkeypatch):
+    monkeypatch.setattr(
+        retrieval_module,
+        "get_settings",
+        lambda: SimpleNamespace(semantic_top_k=5, embeddings_configured=False),
+    )
+    monkeypatch.setattr(
+        retrieval_module,
+        "get_supabase",
+        lambda: (_ for _ in ()).throw(AssertionError("Supabase should not be queried")),
+    )
+
+    assert retrieval_module.semantic_search("animal welfare") == []

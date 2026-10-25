@@ -116,6 +116,12 @@
   outline: 1px solid var(--mint); 
 }
 .conv-actions svg { width: 13px; height: 13px; }
+.evidence-header .evidence-drawer-toggle {
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.evidence-drawer-toggle svg { width: 16px; height: 16px; }
 
 .sidebar-footer {
   padding: var(--space-3) var(--space-4);
@@ -193,7 +199,8 @@
   outline: 2px solid var(--mint); 
   outline-offset: 2px;
 }
-.suggested-q .q-icon { margin-right: 6px; }
+.suggested-q .q-icon { display: inline-flex; margin-right: 6px; vertical-align: middle; }
+.suggested-q .q-icon svg { width: 15px; height: 15px; }
 
 /* Message bubbles */
 .msg {
@@ -230,6 +237,8 @@
   color: var(--near-black);
 }
 .msg:hover .msg-avatar { transform: scale(1.1); }
+.msg-avatar svg { width: 16px; height: 16px; }
+.evidence-header h3 svg { width: 14px; height: 14px; }
 
 .msg-body { flex: 1; min-width: 0; }
 .msg-role-label {

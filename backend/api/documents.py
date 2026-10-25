@@ -61,6 +61,12 @@ def _manifest_to_out(m: DocumentMetadata) -> DocumentOut:
     )
 
 
+def _database_row_to_out(row: dict) -> DocumentOut:
+    data = dict(row)
+    data["local_file"] = data.get("local_file") or data.get("file_path", "")
+    return DocumentOut(**data)
+
+
 @router.get("/documents", response_model=list[DocumentOut])
 def list_documents(
     country: Optional[str] = None,
@@ -79,7 +85,7 @@ def list_documents(
             if document_type:
                 query = query.eq("document_type", document_type)
             resp = query.execute()
-            docs = [DocumentOut(**row) for row in (resp.data or [])]
+            docs = [_database_row_to_out(row) for row in (resp.data or [])]
         except Exception as exc:
             log.warning("Falling back to manifest for documents list: %s", exc)
             docs = [_manifest_to_out(m) for m in load_manifest()]
@@ -105,7 +111,7 @@ def get_document(document_id: str) -> DocumentOut:
         try:
             resp = supabase.table("documents").select("*").eq("id", document_id).limit(1).execute()
             if resp.data:
-                return DocumentOut(**resp.data[0])
+                return _database_row_to_out(resp.data[0])
         except Exception as exc:
             log.warning("Supabase lookup failed, falling back to manifest: %s", exc)
 
@@ -119,14 +125,22 @@ def get_document(document_id: str) -> DocumentOut:
 @router.post("/documents/ingest")
 async def ingest_uploaded_document(file: UploadFile = File(...)):
     settings = get_settings()
-    ext = Path(file.filename).suffix.lower()
+    filename = file.filename or ""
+    ext = Path(filename).suffix.lower()
     if ext not in ALLOWED_EXTENSIONS:
         raise HTTPException(status_code=400, detail=f"Unsupported file type '{ext}'. Allowed: {sorted(ALLOWED_EXTENSIONS)}")
 
-    contents = await file.read()
-    size_mb = len(contents) / (1024 * 1024)
-    if size_mb > settings.max_upload_mb:
-        raise HTTPException(status_code=400, detail=f"File too large ({size_mb:.1f}MB). Max is {settings.max_upload_mb}MB.")
+    if get_supabase() is None:
+        raise HTTPException(status_code=503, detail="Document ingestion requires a configured Supabase database.")
+    if not settings.embeddings_configured:
+        raise HTTPException(status_code=503, detail="Document ingestion requires a configured embedding provider.")
+
+    max_bytes = settings.max_upload_mb * 1024 * 1024
+    contents = await file.read(max_bytes + 1)
+    if len(contents) > max_bytes:
+        raise HTTPException(status_code=413, detail=f"File exceeds the {settings.max_upload_mb}MB upload limit.")
+    if not contents:
+        raise HTTPException(status_code=400, detail="The uploaded file is empty.")
 
     doc_id = f"upload_{uuid.uuid4().hex[:10]}"
     relative_path = f"uploaded/{doc_id}{ext}"
@@ -136,7 +150,7 @@ async def ingest_uploaded_document(file: UploadFile = File(...)):
 
     meta = DocumentMetadata(
         id=doc_id,
-        title=Path(file.filename).stem,
+        title=Path(filename).stem,
         description="User-uploaded document.",
         author="",
         organization="",
@@ -152,5 +166,19 @@ async def ingest_uploaded_document(file: UploadFile = File(...)):
         is_synthetic=False,
     )
 
-    status = ingest_document(meta, force=True)
+    try:
+        status = ingest_document(meta, force=True)
+    except Exception as exc:
+        log.exception("Uploaded document ingestion failed for %s", doc_id)
+        raise HTTPException(
+            status_code=500,
+            detail="Document ingestion failed; check the backend logs for details.",
+        ) from exc
+
+    if status != "ingested":
+        dest_path.unlink(missing_ok=True)
+        raise HTTPException(
+            status_code=422,
+            detail=f"Document could not be ingested (status: {status}).",
+        )
     return {"document_id": doc_id, "status": status}

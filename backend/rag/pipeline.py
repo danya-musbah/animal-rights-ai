@@ -188,11 +188,12 @@ def run_pipeline(
     # 8. Grounded generation
     if settings.is_demo_mode:
         answer_text = (
-            "Demo mode is active (Supabase and/or an LLM provider are not fully configured), so a "
+            "Demo mode is active because one or more required services are missing or demo mode is forced, so a "
             "grounded answer cannot be generated right now. The retrieval stages above still ran "
             "against the configured knowledge base to demonstrate the pipeline end to end. Configure "
-            "SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY and LLM_API_KEY in your .env file to enable "
-            "full generation.\n\n" + (context_block[:300] if context_block else "")
+            "SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY, a real embedding provider and key, and a "
+            "remote LLM provider and key in your .env file to enable full RAG operation.\n\n"
+            + (context_block[:300] if context_block else "")
         )
     else:
         try:

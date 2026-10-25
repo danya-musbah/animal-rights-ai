@@ -54,6 +54,10 @@ def semantic_search(query: str, top_k: int | None = None, filters: dict | None =
     """
     settings = get_settings()
     top_k = top_k or settings.semantic_top_k
+    if not settings.embeddings_configured:
+        log.warning("Semantic search is unavailable without a configured embedding model.")
+        return []
+
     supabase = get_supabase()
     if supabase is None:
         log.warning("Supabase unavailable - semantic_search returning no results.")

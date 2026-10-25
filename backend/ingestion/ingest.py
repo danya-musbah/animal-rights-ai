@@ -28,7 +28,7 @@ from backend.ingestion.loader import load_document
 from backend.ingestion.metadata import DocumentMetadata, load_manifest
 from backend.ingestion.text_cleaner import clean_text, looks_like_extraction_failure
 from backend.rag.chunking import chunk_document
-from backend.rag.embeddings import generate_embeddings
+from backend.rag.embeddings import EmbeddingError, generate_embeddings
 from backend.utils.logger import get_logger
 from backend.utils.supabase_client import get_supabase
 
@@ -135,6 +135,9 @@ def ingest_document(meta: DocumentMetadata, force: bool = False) -> str:
     if not chunks:
         log.error("No chunks produced for %s", meta.id)
         return "no_chunks"
+
+    if supabase is not None and not settings.embeddings_configured:
+        raise EmbeddingError("A configured embedding model is required before documents can be stored in Supabase.")
 
     embeddings = generate_embeddings([c.content for c in chunks])
 

@@ -51,11 +51,13 @@ def generate_embedding(text: str) -> list[float]:
 def generate_embeddings(texts: list[str]) -> list[list[float]]:
     settings = get_settings()
 
-    if settings.embedding_provider == "local" or not settings.embeddings_configured:
+    if settings.embedding_provider == "local":
         log.warning("Embedding provider not configured - using deterministic fallback vectors (demo mode only).")
         return [_deterministic_fallback_embedding(t, settings.embedding_dimensions) for t in texts]
 
     if settings.embedding_provider == "openai":
+        if not settings.embedding_api_key:
+            raise EmbeddingError("EMBEDDING_API_KEY is required for the OpenAI embedding provider.")
         return _openai_compatible_embeddings(texts)
 
     raise EmbeddingError(f"Unsupported embedding provider: {settings.embedding_provider}")

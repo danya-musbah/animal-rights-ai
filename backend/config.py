@@ -51,7 +51,6 @@ def _get_float(name: str, default: float) -> float:
 class Settings:
     # --- Supabase ---
     supabase_url: str = os.getenv("SUPABASE_URL", "")
-    supabase_anon_key: str = os.getenv("SUPABASE_ANON_KEY", "")
     supabase_service_role_key: str = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
     # --- LLM provider (OpenAI-compatible) ---
@@ -68,7 +67,7 @@ class Settings:
     embedding_provider: str = os.getenv("EMBEDDING_PROVIDER", "openai")
 
     # --- Optional dedicated reranker ---
-    reranker_provider: str = os.getenv("RERANKER_PROVIDER", "none")  # none | cohere | api
+    reranker_provider: str = os.getenv("RERANKER_PROVIDER", "none")  # none | cohere
     reranker_api_key: str = os.getenv("RERANKER_API_KEY", "")
     reranker_model: str = os.getenv("RERANKER_MODEL", "")
 
@@ -83,12 +82,13 @@ class Settings:
     # --- App ---
     app_env: str = os.getenv("APP_ENV", "development")
     cors_origins: str = os.getenv("CORS_ORIGINS", "*")
-    max_upload_mb: int = _get_int("MAX_UPLOAD_MB", 20)
+    max_upload_mb: int = max(1, _get_int("MAX_UPLOAD_MB", 20))
     demo_mode_forced: bool = _get_bool("FORCE_DEMO_MODE", False)
 
     @property
     def supabase_configured(self) -> bool:
-        return bool(self.supabase_url and (self.supabase_service_role_key or self.supabase_anon_key))
+        # The API performs writes while the migrations deny them to anon clients.
+        return bool(self.supabase_url and self.supabase_service_role_key)
 
     @property
     def llm_configured(self) -> bool:
@@ -96,7 +96,8 @@ class Settings:
 
     @property
     def embeddings_configured(self) -> bool:
-        return bool(self.embedding_api_key) or self.embedding_provider == "local"
+        # The local mode is a deterministic placeholder, not a semantic model.
+        return self.embedding_provider == "openai" and bool(self.embedding_api_key)
 
     @property
     def is_demo_mode(self) -> bool:
@@ -105,7 +106,9 @@ class Settings:
         needs to run a genuine RAG pipeline (Supabase and/or an LLM).
         The frontend clearly communicates this rather than faking answers.
         """
-        return self.demo_mode_forced or not (self.supabase_configured and self.llm_configured)
+        return self.demo_mode_forced or not (
+            self.supabase_configured and self.llm_configured and self.embeddings_configured
+        )
 
 
 @lru_cache
